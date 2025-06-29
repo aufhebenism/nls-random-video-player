@@ -42,6 +42,18 @@ class FinalBpmOrganicVJWithAnalysis:
         self.frame_count = 0
         self.prev_faces = []
         
+        # 背景色設定
+        self.background_colors = {
+            'black': (0, 0, 0),           # 黒（デフォルト）
+            'red': (0, 0, 255),           # 赤（光の三原色）
+            'green': (0, 255, 0),         # 緑（光の三原色）
+            'blue': (255, 0, 0),          # 青（光の三原色）
+            'cyan': (255, 255, 0),        # シアン（色の三原色）
+            'magenta': (255, 0, 255),     # マゼンタ（色の三原色）
+            'yellow': (0, 255, 255)       # イエロー（色の三原色）
+        }
+        self.current_bg_color = 'black'  # デフォルトは黒
+        
         # キーワードリスト（sakugabooruのタグを参考に拡充）
         self.action_keywords = {
             'face': ['顔認識', '人物検出', 'フェイス', 'ヒューマン', '表情解析', 
@@ -470,13 +482,15 @@ class FinalBpmOrganicVJWithAnalysis:
     def create_organic_composition(self, frames: List[np.ndarray], show_analysis: bool, 
                                  width: int = 1920, height: int = 1080) -> np.ndarray:
         """有機的なコンポジションを作成（動画再生＋解析オーバーレイ付き）"""
-        # 背景（ダークグレー）
-        canvas = np.full((height, width, 3), (40, 45, 55), dtype=np.uint8)
+        # 背景（選択された色）
+        bg_color = self.background_colors[self.current_bg_color]
+        canvas = np.full((height, width, 3), bg_color, dtype=np.uint8)
         
-        # 微妙なグラデーション
-        for y in range(height):
-            gradient = int(5 * (y / height))
-            canvas[y, :] = canvas[y, :] + gradient
+        # 黒背景の場合のみ微妙なグラデーションを追加
+        if self.current_bg_color == 'black':
+            for y in range(height):
+                gradient = int(20 * (y / height))  # より見やすく調整
+                canvas[y, :] = np.clip(canvas[y, :] + gradient, 0, 255)
         
         # 既存のレイアウト領域を使用（なければ生成）
         if not self.layout_regions:
@@ -661,6 +675,7 @@ class FinalBpmOrganicVJWithAnalysis:
         print("  m/n: Motion detection threshold -/+")
         print("  s/d: Playback speed -/+ (default: 2x)")
         print("  f/g: Face detection size -/+")
+        print("  b: Cycle background color (Black/RGB/CMY)")
         print("\n")
         
         show_analysis = False  # デフォルトでOFFにしてパフォーマンス向上
@@ -730,9 +745,11 @@ class FinalBpmOrganicVJWithAnalysis:
             
             # 情報表示
             display_h, display_w = display.shape[:2]
-            info_text = f"BPM: {self.bpm} | Update: {self.beat_multiplier} beat(s) | Speed: {self.playback_speed}x | Analysis: {'ON' if show_analysis else 'OFF'}"
+            info_text = f"BPM: {self.bpm} | Update: {self.beat_multiplier} beat(s) | Speed: {self.playback_speed}x | Analysis: {'ON' if show_analysis else 'OFF'} | BG: {self.current_bg_color.upper()}"
+            # 背景色に応じてテキスト色を調整
+            text_color = (200, 200, 200) if self.current_bg_color == 'black' else (50, 50, 50)
             cv2.putText(display, info_text, (10, display_h - 20),
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.6, (150, 150, 150), 1)
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.6, text_color, 1)
             
             # ビートインジケーター（小さな点）
             beat_progress = ((current_time - self.last_update) / update_interval)
@@ -797,6 +814,13 @@ class FinalBpmOrganicVJWithAnalysis:
                 # 再生速度を上げる
                 self.playback_speed = min(4.0, self.playback_speed + 0.5)
                 print(f"Playback speed: {self.playback_speed}x")
+            elif key == ord('b'):
+                # 背景色を切り替える
+                color_list = list(self.background_colors.keys())
+                current_index = color_list.index(self.current_bg_color)
+                next_index = (current_index + 1) % len(color_list)
+                self.current_bg_color = color_list[next_index]
+                print(f"Background color: {self.current_bg_color.upper()}")
         
         # クリーンアップ
         for cap in self.video_caps:

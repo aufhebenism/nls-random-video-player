@@ -17,7 +17,8 @@
     "max_columns": 6,
     "min_rows": 2,
     "max_rows": 6,
-    "gap_ratio": 0.02
+    "gap_ratio": 0.02,
+    "background_color": "black"
   },
   "effects": {
     "gaussian_blur": {
