@@ -1,0 +1,102 @@
+{
+  "window": {
+    "width": 800,
+    "height": 600,
+    "fullscreen": false
+  },
+  "video": {
+    "folder_path": "/path/to/video/folder",
+    "extensions": [".mp4", ".avi", ".mov", ".mkv"]
+  },
+  "bpm": {
+    "default": 120,
+    "multiplier": 4
+  },
+  "layout": {
+    "min_columns": 2,
+    "max_columns": 6,
+    "min_rows": 2,
+    "max_rows": 6,
+    "gap_ratio": 0.02
+  },
+  "effects": {
+    "gaussian_blur": {
+      "enabled": false,
+      "kernel_size": [5, 5]
+    },
+    "motion_blur": {
+      "enabled": false,
+      "size": 10
+    },
+    "edge_detection": {
+      "enabled": false,
+      "threshold1": 100,
+      "threshold2": 200
+    },
+    "pixelate": {
+      "enabled": false,
+      "pixel_size": 10
+    },
+    "glitch": {
+      "enabled": false,
+      "intensity": 0.1
+    },
+    "wave": {
+      "enabled": false,
+      "amplitude": 20,
+      "frequency": 0.1
+    },
+    "kaleidoscope": {
+      "enabled": false,
+      "segments": 6
+    },
+    "color_shift": {
+      "enabled": false,
+      "shift_amount": 10
+    },
+    "posterize": {
+      "enabled": false,
+      "levels": 4
+    },
+    "sketch": {
+      "enabled": false
+    },
+    "pencil": {
+      "enabled": false,
+      "shade_factor": 70,
+      "intensity": 0.8
+    },
+    "mask": {
+      "enabled": false,
+      "threshold": 100
+    }
+  },
+  "motion_analysis": {
+    "enabled": true,
+    "threshold": 300,
+    "update_interval": 2.0,
+    "keywords": {
+      "aggressive": ["glitch", "edge_detection", "posterize"],
+      "smooth": ["gaussian_blur", "wave", "color_shift"],
+      "dynamic": ["motion_blur", "kaleidoscope", "pixelate"],
+      "static": ["sketch", "pencil", "mask"]
+    }
+  },
+  "face_detection": {
+    "enabled": true,
+    "cascade_path": "lbpcascade_animeface.xml",
+    "min_size": [50, 50],
+    "scale_factor": 1.1,
+    "min_neighbors": 5
+  },
+  "playback": {
+    "speed_min": 0.5,
+    "speed_max": 2.0,
+    "random_seek": true
+  },
+  "osc": {
+    "enabled": false,
+    "ip": "127.0.0.1",
+    "port": 5005
+  }
+}

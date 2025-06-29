@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+VENV/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+.venv
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.ogv
+*.webm
+output/
+temp/
+cache/
+
+# Config overrides
+config.local.json
+
+# Logs
+*.log
+
+# Anime face cascade file (user should download separately)
+lbpcascade_animeface.xml
