@@ -44,3 +44,6 @@ config.local.json
 
 # Anime face cascade file (user should download separately)
 lbpcascade_animeface.xml
+
+.venv311
+.claude

@@ -10,12 +10,23 @@ BPM同期型のオーガニックレイアウトVJシステムです。動画フ
 - **豊富なエフェクト**: ブラー、エッジ検出、グリッチ、カレイドスコープなど
 - **リアルタイムコントロール**: キーボードでBPMやエフェクトを調整可能
 
+## 動作環境
+
+- Python 3.11 推奨
+- macOS, Windows, Linux
+
 ## インストール
 
 ```bash
 # リポジトリをクローン
 git clone https://github.com/aufhebenism/bpm-organic-vj.git
 cd bpm-organic-vj
+
+# Python 3.11で仮想環境を作成（推奨）
+python3.11 -m venv .venv311
+source .venv311/bin/activate  # macOS/Linux
+# または
+.venv311\Scripts\activate  # Windows
 
 # 依存関係をインストール
 pip install -r requirements.txt
